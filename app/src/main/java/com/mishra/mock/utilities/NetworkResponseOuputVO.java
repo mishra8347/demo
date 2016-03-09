@@ -1,11 +1,14 @@
 package com.mishra.mock.utilities;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 
 /**
  * Created by Shailendra on 09-03-2016.
  */
-public class NetworkResponseOuputVO
+public class NetworkResponseOuputVO implements Parcelable
 {
     String id;
     String name;
@@ -19,6 +22,33 @@ public class NetworkResponseOuputVO
         locationList = new ArrayList<>();
         vehicalList = new ArrayList<>();
     }
+
+    protected NetworkResponseOuputVO(Parcel in)
+    {
+        id = in.readString();
+        name = in.readString();
+        car = in.readString();
+        train = in.readString();
+        lat = in.readString();
+        locationList = in.createTypedArrayList(NetworkResponseOuputVO.CREATOR);
+        vehicalList = in.createTypedArrayList(NetworkResponseOuputVO.CREATOR);
+        lng = in.readString();
+    }
+
+    public static final Creator<NetworkResponseOuputVO> CREATOR = new Creator<NetworkResponseOuputVO>()
+    {
+        @Override
+        public NetworkResponseOuputVO createFromParcel(Parcel in)
+        {
+            return new NetworkResponseOuputVO(in);
+        }
+
+        @Override
+        public NetworkResponseOuputVO[] newArray(int size)
+        {
+            return new NetworkResponseOuputVO[size];
+        }
+    };
 
     public String getId()
     {
@@ -83,4 +113,23 @@ public class NetworkResponseOuputVO
     }
 
     String lng;
+
+    @Override
+    public int describeContents()
+    {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags)
+    {
+        dest.writeString(id);
+        dest.writeString(name);
+        dest.writeString(car);
+        dest.writeString(train);
+        dest.writeString(lat);
+        dest.writeTypedList(locationList);
+        dest.writeTypedList(vehicalList);
+        dest.writeString(lng);
+    }
 }

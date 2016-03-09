@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import com.mishra.mock.appbase.BaseActivity;
 import com.mishra.mock.fragments.FragmentDisignPartTwo;
 import com.mishra.mock.fragments.HomeFragment;
+import com.mishra.mock.utilities.GetDataFromServer;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener
@@ -39,10 +40,14 @@ public class MainActivity extends BaseActivity
             navigateTo(new HomeFragment());
         } else {
             String name = savedInstanceState.getString("fragment");
-            if (name.equalsIgnoreCase("HomeFragment")) {
+            if (name.equalsIgnoreCase("FragmentDisignPartTwo")) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("ArrayList", savedInstanceState.getParcelableArrayList("ArrayList"));
+                FragmentDisignPartTwo fragment = new FragmentDisignPartTwo();
+                fragment.setArguments(bundle);
+                navigateTo(fragment);
+            } else {
                 navigateTo(new HomeFragment());
-            } else if (name.equalsIgnoreCase("FragmentDisignPartTwo")) {
-                navigateTo(new FragmentDisignPartTwo());
             }
         }
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -53,6 +58,7 @@ public class MainActivity extends BaseActivity
     protected void onSaveInstanceState(Bundle outState)
     {
         outState.putString("fragment", name);
+        outState.putParcelableArrayList("ArrayList", GetDataFromServer.getDataList());
         super.onSaveInstanceState(outState);
 
     }

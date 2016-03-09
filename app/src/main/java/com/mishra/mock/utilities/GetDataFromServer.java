@@ -1,7 +1,10 @@
 package com.mishra.mock.utilities;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.ProgressBar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -13,6 +16,8 @@ import java.util.ArrayList;
 public class GetDataFromServer extends AsyncTask<String, String, String>
 {
 
+    private final ProgressDialog progressBar;
+
     public interface OnTaskComplete
     {
         void onTaskCompleted();
@@ -23,8 +28,12 @@ public class GetDataFromServer extends AsyncTask<String, String, String>
     private static ArrayList<NetworkResponseOuputVO> dataList;
 
 
-    public GetDataFromServer(String url, OnTaskComplete onTaskComplete)
+    public GetDataFromServer(String url, OnTaskComplete onTaskComplete, Context context)
     {
+        progressBar = new ProgressDialog(context);
+        progressBar.setMessage("Please wait...");
+        progressBar.setCancelable(false);
+        progressBar.show();
         this.onTaskComplete = onTaskComplete;
         this.url = url;
         dataList = new ArrayList<>();
@@ -66,6 +75,9 @@ public class GetDataFromServer extends AsyncTask<String, String, String>
                 }
                 ArrayList<NetworkResponseOuputVO> list = getDataList();
                 onTaskComplete.onTaskCompleted();
+                if (progressBar != null && progressBar.isShowing()) {
+                    progressBar.dismiss();
+                }
             }
             catch (JSONException e) {
                 e.printStackTrace();

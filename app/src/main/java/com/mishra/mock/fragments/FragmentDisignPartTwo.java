@@ -26,6 +26,7 @@ public class FragmentDisignPartTwo extends BaseFragment implements GetDataFromSe
     private double latitude = 0;
     private double longitude = 0;
     private String label;
+    private ArrayList<NetworkResponseOuputVO> arrayList;
 
     @Override
     public int getFragmentLayoutId()
@@ -40,11 +41,24 @@ public class FragmentDisignPartTwo extends BaseFragment implements GetDataFromSe
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState)
+    {
+        outState.putParcelableArrayList("ArrayList", arrayList);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     public void onViewCreated(View view, Bundle savedInstanceState)
     {
         initView();
-        GetDataFromServer getDataFromServer = new GetDataFromServer("http://express-it.optusnet.com.au/sample.json", this);
-        getDataFromServer.execute();
+        if (getArguments() == null) {
+            GetDataFromServer getDataFromServer = new GetDataFromServer("http://express-it.optusnet.com.au/sample.json", this,getContext());
+            getDataFromServer.execute();
+        } else {
+            arrayList = getArguments().getParcelableArrayList("ArrayList");
+            setDataToSpiner(spinner);
+        }
+
         super.onViewCreated(view, savedInstanceState);
     }
 
@@ -57,7 +71,12 @@ public class FragmentDisignPartTwo extends BaseFragment implements GetDataFromSe
 
     private void setDataToSpiner(Spinner spinner)
     {
-        final ArrayList<NetworkResponseOuputVO> arrayList = GetDataFromServer.getDataList();
+
+
+        if (!(GetDataFromServer.getDataList() == null || GetDataFromServer.getDataList().size() == 0)) {
+            arrayList = GetDataFromServer.getDataList();
+        }
+
         ArrayList<String> spinnerArray = new ArrayList<>();
         for (int i = 0; i < arrayList.size(); i++) {
             spinnerArray.add(arrayList.get(i).getName());
@@ -113,6 +132,7 @@ public class FragmentDisignPartTwo extends BaseFragment implements GetDataFromSe
     @Override
     public void onTaskCompleted()
     {
+
         setDataToSpiner(spinner);
     }
 }
