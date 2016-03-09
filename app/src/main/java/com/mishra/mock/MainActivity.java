@@ -1,6 +1,7 @@
 package com.mishra.mock;
 
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,10 +18,14 @@ import com.mishra.mock.fragments.HomeFragment;
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener
 {
+    private String name;
+    private Fragment fragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -30,9 +35,26 @@ public class MainActivity extends BaseActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-        navigateTo(new HomeFragment());
+        if (savedInstanceState == null) {
+            navigateTo(new HomeFragment());
+        } else {
+            String name = savedInstanceState.getString("fragment");
+            if (name.equalsIgnoreCase("HomeFragment")) {
+                navigateTo(new HomeFragment());
+            } else if (name.equalsIgnoreCase("FragmentDisignPartTwo")) {
+                navigateTo(new FragmentDisignPartTwo());
+            }
+        }
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState)
+    {
+        outState.putString("fragment", name);
+        super.onSaveInstanceState(outState);
+
     }
 
     @Override
@@ -66,6 +88,8 @@ public class MainActivity extends BaseActivity
 
     protected void navigateTo(Fragment fragment)
     {
+        name = fragment.getClass().getSimpleName();
+        this.fragment = fragment;
         replaceContentFragment(getSupportFragmentManager(), fragment, false, R.id.fragmentFrameContainer, 0, 0, 0, 0, false);
     }
 

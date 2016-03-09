@@ -1,57 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:id="@+id/cantainerLinearlayout"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="@dimen/globalMargin"
-    android:orientation="vertical">
-
-
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/tabMargin"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/toastLayoutStrokeWidth"
-        android:background="@color/colorAccent"/>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/viewPagerheight"
-        android:layout_marginTop="@dimen/globalMargin"
-        android:orientation="vertical"
-        >
+        android:id="@+id/cantainerLinearlayout"
 
-        <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/globalMargin"
+        android:orientation="vertical">
+
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tabMargin"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/toastLayoutStrokeWidth"
+            android:background="@color/colorAccent"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/viewPagerheight"
+            android:layout_marginTop="@dimen/globalMargin"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/mode"
+                android:textSize="@dimen/texSize"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/car"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/train"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/toastLayoutStrokeWidth"
+            android:background="@color/colorAccent"/>
+
+        <Button
+            android:id="@+id/navigateButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/mode"
-            android:textSize="@dimen/texSize"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:id="@+id/car"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:id="@+id/train"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_gravity="center|center_vertical"
+            android:text="@string/navigate"/>
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/toastLayoutStrokeWidth"
-        android:background="@color/colorAccent"/>
-
-    <Button
-        android:id="@+id/navigateButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center|center_vertical"
-        android:text="@string/navigate"/>
-</LinearLayout>
+</ScrollView>
